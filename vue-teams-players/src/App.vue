@@ -1,17 +1,19 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app" class="min-h-screen bg-gray-100">
+    <!-- Navigation (if needed later) -->
+    <header class="bg-blue-600 text-white p-4">
+      <!-- <h1 class="text-xl font-bold">Teams & Players</h1> -->
+    </header>
+
+    <!-- Router View -->
+    <main class="p-6">
+      <router-view />
+    </main>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
 </script>
 
 <style>
