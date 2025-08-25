@@ -48,7 +48,7 @@ onMounted(async () => {
 
 async function saveChanges(teams) {
   try {
-    await axios.post('http://localhost:8000/api/save', {
+    await axios.post('http://localhost:8000/api/teams/update-all', {
       teams: teams
     })
   } catch (error) {

@@ -16,8 +16,8 @@ class Player extends Model
         'bg_color'
     ];
 
-    public function team()
+    public function teams()
     {
-        return $this->belongsTo(Team::class, 'player_team');
+        return $this->belongsToMany(Team::class, 'team_players');
     }
 }

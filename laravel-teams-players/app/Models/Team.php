@@ -18,7 +18,7 @@ class Team extends Model
 
     public function players()
     {
-        return $this->belongsToMany(Player::class, 'player_team')
+        return $this->belongsToMany(Player::class, 'team_players')
             ->withPivot('is_captain', 'sort_order')
             ->orderBy('sort_order');
     }

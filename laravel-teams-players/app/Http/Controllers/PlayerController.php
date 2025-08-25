@@ -13,7 +13,7 @@ class PlayerController extends Controller
      */
     public function index()
     {
-        $players = Player::with('team')->get();
+        $players = Player::whereDoesntHave('teams')->with('teams')->get();
 
         return PlayerResource::collection($players);
     }

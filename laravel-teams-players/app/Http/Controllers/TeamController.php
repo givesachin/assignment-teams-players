@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Team;
+use App\Models\PlayerTeam;
 use App\Http\Resources\TeamResource;
 
 class TeamController extends Controller
@@ -53,11 +54,47 @@ class TeamController extends Controller
             'name' => 'sometimes|required|string|max:255',
             'state' => 'sometimes|required|string|max:255',
             'country' => 'sometimes|required|string|max:255',
+            'players' => 'array',
         ]);
 
-        $team->update($validated);
-
+        $team->update(collect($validated)->only(['name', 'state', 'country'])->toArray());
+        
         return new TeamResource($team);
+    }
+
+    public function updateAll(Request $request)
+    {
+        $validated = $request->validate([
+            'teams' => 'required|array',
+            'teams.*.id' => 'required|exists:teams,id',
+            'teams.*.name' => 'sometimes|required|string|max:255',
+            'teams.*.state' => 'sometimes|required|string|max:255',
+            'teams.*.country' => 'sometimes|required|string|max:255',
+            'teams.*.players' => 'array',
+            'teams.*.players.*.id' => 'required|integer|exists:players,id',
+        ]);
+
+        $teams = $request->input('teams', []);
+
+        foreach ($teams as $teamData) {
+            $team = Team::findOrFail($teamData['id']);
+            
+            $team->update(collect($validated)->only(['name', 'state', 'country'])->toArray());
+
+            if (isset($teamData['players'])) {
+                foreach ($teamData['players'] as $index => $playerData) {
+                    PlayerTeam::updateOrCreate(
+                        ['player_id' => $playerData['id']], // lookup condition
+                        [
+                            'team_id'    => $team->id,
+                            'sort_order' => $index + 1,
+                        ]
+                    );
+                }
+            }
+        }
+
+        return response()->json(null, 200);
     }
 
     /**
