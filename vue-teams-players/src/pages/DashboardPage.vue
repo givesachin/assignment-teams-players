@@ -7,7 +7,6 @@
       <h2 class="text-xl font-semibold mb-2">Unassigned Players</h2>
       <UnassignedPlayers
         v-model="unassignedPlayers"
-        :saveChanges="saveChanges"
       />
     </section>
 
@@ -17,7 +16,7 @@
       <h2 class="text-xl font-semibold mb-2">Teams</h2>
       <TeamsList
         v-model="teams"
-        
+        @update:model-value="saveChanges"
       />
     </section>
   </div>
@@ -47,14 +46,13 @@ onMounted(async () => {
   }
 })
 
-// async function saveChanges() {
-//   try {
-//     await axios.post('http://localhost:8000/api/save', {
-//       unassignedPlayers: unassignedPlayers.value,
-//       teams: teams.value
-//     })
-//   } catch (error) {
-//     console.error('Save failed:', error)
-//   }
-// }
+async function saveChanges(teams) {
+  try {
+    await axios.post('http://localhost:8000/api/save', {
+      teams: teams
+    })
+  } catch (error) {
+    console.error('Save failed:', error)
+  }
+}
 </script>

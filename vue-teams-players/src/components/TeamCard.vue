@@ -6,7 +6,7 @@
       group="players"
       item-key="id"
       class="min-h-[50px] border p-2 rounded bg-gray-50"
-      @end="onDragEnd"
+      @change="onDragEnd"
     >
       <template #item="{ element }">
         <PlayerCard :player="element" />
@@ -42,6 +42,7 @@ watch(
 )
 
 function onDragEnd() {
+  console.log('end');
   // Emit updated team object with new players order
   emit('update:team', {
     ...props.team,
