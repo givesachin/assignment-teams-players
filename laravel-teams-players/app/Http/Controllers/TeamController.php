@@ -58,7 +58,7 @@ class TeamController extends Controller
         ]);
 
         $team->update(collect($validated)->only(['name', 'state', 'country'])->toArray());
-        
+
         return new TeamResource($team);
     }
 
@@ -81,17 +81,15 @@ class TeamController extends Controller
             
             $team->update(collect($validated)->only(['name', 'state', 'country'])->toArray());
 
-            if (isset($teamData['players'])) {
-                foreach ($teamData['players'] as $index => $playerData) {
-                    PlayerTeam::updateOrCreate(
-                        ['player_id' => $playerData['id']], // lookup condition
-                        [
-                            'team_id'    => $team->id,
-                            'sort_order' => $index + 1,
-                        ]
-                    );
-                }
+            $syncData = [];
+
+            foreach ($teamData['players'] as $index => $playerData) {
+                $syncData[$playerData['id']] = [
+                    'sort_order' => $index + 1,
+                ];
             }
+
+            $team->players()->sync($syncData);
         }
 
         return response()->json(null, 200);
