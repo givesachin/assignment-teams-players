@@ -8,42 +8,45 @@ Create a REST API for managing teams and players.
 
 ## Creating project,
 
-composer create-project laravel/laravel teams-players
+composer create-project laravel/laravel laravel-teams-players
+vue create vue-teams-players
+
 
 ---
 
-## For posts, I will create posts table through migration
+## For teams and players, I will create tables through migration
 
-php artisan make:migration create_posts_table --create=posts
-php artisan make:migration create_blogs_table --create=blogs
+php artisan make:migration create_teams_table
+php artisan make:migration create_players_table
+php artisan make:migration create_player_team_table
 
 ---
 
-## Now, I need Elequent model Post,
+## Now, I need Elequent models,
 
-php artisan make:model Post
-php artisan make:model Blog
+php artisan make:model Team
+php artisan make:model Player
 
 ---
 
 ## We need controller,
 
-php artisan make:controller PostController --api
-php artisan make:controller BlogController --api
+php artisan make:controller TeamController --api
+php artisan make:controller PlayerController --api
 
 ---
 
 ## Let's create API Resource for Post response formatting,
 
-php artisan make:resource PostResource
-php artisan make:resource BlogResource
+php artisan make:resource TeamResource
+php artisan make:resource PlayerResource
 
 ---
 
 ## In routes/api.php,
 
-Route::apiResource('posts', PostController::class);
-Route::apiResource('blogs', BlogController::class);
+Route::apiResource('teams', TeamController::class);
+Route::apiResource('players', PlayerController::class);
 
 ---
 
@@ -53,18 +56,8 @@ php artisan migrate
 
 ---
 
-## check post api resources are created,
+## check api resources are created,
 
 php artisan route:list
 
 ---
-
-## CI/CD temporary domain
-
-https://manageblogposts.vardaneducationandtrust.in/
-
----
-
-## Postman Public Collection
-
-https://www.postman.com/orange-flare-819917/sachin-bhoi-testing/collection/t2ddu4k/manage-blog-posts
