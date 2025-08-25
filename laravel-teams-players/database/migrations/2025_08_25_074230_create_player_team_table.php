@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('player_id')->constrained('players')->onDelete('cascade');
             $table->foreignId('team_id')->constrained('teams')->onDelete('cascade');
+            $table->boolean('is_captain')->default(false);
+            $table->integer('sort_order')->nullable();
             $table->timestamps();
         });
     }

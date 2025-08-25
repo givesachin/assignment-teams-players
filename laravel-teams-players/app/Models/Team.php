@@ -9,5 +9,17 @@ class Team extends Model
     
     protected $fillable = [
         'name',
+        'state',
+        'country',
+        'is_active',
+        'font_color',
+        'bg_color'
     ];
+
+    public function players()
+    {
+        return $this->belongsToMany(Player::class, 'player_team')
+            ->withPivot('is_captain', 'sort_order')
+            ->orderBy('sort_order');
+    }
 }

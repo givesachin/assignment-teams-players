@@ -14,6 +14,11 @@ return new class extends Migration
         Schema::create('players', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('email')->unique();
+            $table->date('dob');
+            $table->boolean('is_active')->default(true);
+            $table->string('font_color')->nullable();
+            $table->string('bg_color')->nullable();
             $table->timestamps();
         });
     }
